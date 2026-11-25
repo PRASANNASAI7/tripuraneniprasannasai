@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prasanna Sai Tripuraneni - Resume Architecture</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    :root {
+      --bg-main: #ffffff;
+      --bg-sidebar: #0f172a;
+      --text-dark: #0f172a;
+      --text-light: #f8fafc;
+      --text-muted: #64748b;
+      --text-sidebar-muted: #94a3b8;
+      --accent: #2563eb; 
+      --accent-light: #eff6ff;
+      --border-color: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f1f5f9;
+      color: var(--text-dark);
+      line-height: 1.5;
+      padding: 40px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Floating Control Hub */
+    .control-panel {
+      width: 210mm;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .download-btn {
+      background-color: var(--bg-sidebar);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .download-btn:hover {
+      background-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    /* A4 Document Frame Base Layout */
+    .a4-container {
+      width: 210mm;
+      height: 297mm;
+      background-color: var(--bg-main);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* SIDEBAR Aesthetic */
+    .sidebar {
+      background-color: var(--bg-sidebar);
+      color: var(--text-light);
+      padding: 30px 24px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .profile-block {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .avatar-wrapper {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      margin: 0 auto 15px auto;
+      border: 3px solid rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      background-color: #1e293b;
+    }
+
+    .avatar-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-block h1 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      color: #ffffff;
+    }
+
+    .profile-block .title-sub {
+      font-size: 12px;
+      color: #38bdf8;
+      font-weight: 500;
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .sidebar-section {
+      margin-bottom: 28px;
+    }
+
+    .sidebar-section h2 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #38bdf8;
+      margin-bottom: 12px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .contact-item {
+      margin-bottom: 12px;
+    }
+
+    .contact-item label {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--text-sidebar-muted);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .contact-item span, .contact-item a {
+      font-size: 12.5px;
+      color: #e2e8f0;
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    .contact-item a:hover {
+      color: #38bdf8;
+    }
+
+    .pill-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .pill {
+      background-color: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      padding: 35px 35px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .summary-card {
+      font-size: 13.5px;
+      color: #334155;
+      line-height: 1.6;
+      margin-bottom: 28px;
+      background-color: var(--accent-light);
+      border-left: 3px solid var(--accent);
+      padding: 12px 16px;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .main-section {
+      margin-bottom: 24px;
+    }
+
+    .main-section h2 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-dark);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+    }
+
+    .main-section h2::after {
+      content: '';
+      flex-grow: 1;
+      height: 1px;
+      background-color: var(--border-color);
+    }
+
+    .timeline-node {
+      position: relative;
+      padding-left: 20px;
+      border-left: 1.5px solid var(--border-color);
+      margin-bottom: 16px;
+    }
+
+    .timeline-node:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .timeline-node::before {
+      content: '';
+      position: absolute;
+      left: -4.5px;
+      top: 5px;
+      width: 8px;
+      height: 8px;
+      background-color: var(--bg-main);
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+    }
+
+    .node-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 3px;
+    }
+
+    .node-title {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .node-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--accent);
+      background-color: var(--accent-light);
+      padding: 1px 8px;
+      border-radius: 4px;
+    }
+
+    .node-institution {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .bullet-list {
+      list-style-type: none;
+    }
+
+    .bullet-list li {
+      position: relative;
+      font-size: 12px;
+      color: #334155;
+      padding-left: 14px;
+      margin-bottom: 4px;
+    }
+
+    .bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    .score-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      background-color: #f1f5f9;
+      color: #475569;
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+        background-color: #ffffff;
+      }
+      .control-panel {
+        display: none;
+      }
+      .a4-container {
+        box-shadow: none;
+        border: none;
+        width: 210mm;
+        height: 297mm;
+        max-height: 297mm;
+        grid-template-columns: 240px 1fr;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="control-panel">
+    <button class="download-btn" onclick="generatePDF()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4M7 10l5 5 5-5M12 15V3"/></svg>
+      Download A4 PDF
+    </button>
+  </div>
+
+  <div class="a4-container" id="resume-document">
+    
+    <aside class="sidebar">
+      <div class="profile-block">
+        <div class="avatar-wrapper">
+          <img id="profile-avatar" src="C:\Users\tpras\OneDrive\Pictures\PassportPic - PrasannaSai.jpg",<svg xmlns='http://www.w3.org/2000/svg' width='110' height='110' viewBox='0 0 100 100'><rect width='100%' height='100%' fill='%231e293b'/><circle cx='50' cy='40' r='20' fill='%2394a3b8'/><path d='M20,85 C20,65 35,55 50,55 C65,55 80,65 80,85' fill='%2394a3b8'/></svg>" alt="Prasanna Sai Tripuraneni">
+        </div>
+        <h1>Prasanna Sai<br>Tripuraneni</h1>
+        <div class="title-sub">Full-Stack Engineer</div>
+      </div>
+
+      <div class="sidebar-section">
+        <h2>Contact</h2>
+        <div class="contact-item">
+          <label>Phone</label>
+          <a href="tel:+918309419511">+91 8309419511</a>
+        </div>
+        <div class="contact-item">
+          <label>Email</label>
+          <a href="mailto:learnify.prasannasai@gmail.com">learnify.prasannasai@gmail.com</a>
+        </div>
+        <div class="contact-item">
+          <label>Date of Birth</label>
+          <span>23 / 02 / 2008</span>
+        </div>
+        <div class="contact-item">
+          <label>GitHub</label>
+          <a href="https://github.com/PRASANNASAI7" target="_blank">PRASANNASAI7</a>
+        </div>
+        <div class="contact-item">
+          <label>Location</label>
+          <span>Angaluru, AP, 521330</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h2>Core Runtimes</h2>
+        <div class="pill-cloud">
+          <span class="pill">JavaScript (ES6+)</span>
+          <span class="pill">Node.js</span>
+          <span class="pill">Express.js</span>
+          <span class="pill">REST API Design</span>
+          <span class="pill">Asynchronous JS</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h2>Data & DevOps</h2>
+        <div class="pill-cloud">
+          <span class="pill">MongoDB</span>
+          <span class="pill">Mongoose ODM</span>
+          <span class="pill">Cloudinary API</span>
+          <span class="pill">EmailJS SDK</span>
+          <span class="pill">Render Cloud</span>
+          <span class="pill">Git / GitHub</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div class="summary-card">
+        Performance-driven software developer specialized in engineering responsive web infrastructure and clean backend architecture. Proficient in optimizing production data workflows, managing remote asset storage, and abstracting server dependencies to build robust client-side execution solutions.
+      </div>
+
+      <section class="main-section">
+        <h2>Engineering Deployments</h2>
+        
+        <div class="timeline-node">
+          <div class="node-header">
+            <div class="node-title">Full-Stack Web Development Internship</div>
+            <div class="node-badge">6 Months</div>
+          </div>
+          <div class="node-institution">KBK Software Solutions • Mangalagiri</div>
+          <ul class="bullet-list">
+            <li>Gained hands-on experience designing and building responsive client interfaces and modular backend service architectures.</li>
+            <li>Collaborated with engineering teams to deploy scalable application logic and clean database management pipelines.</li>
+          </ul>
+        </div>
+
+        <div class="timeline-node">
+          <div class="node-header">
+            <div class="node-title">urcenoteX Workspace Core Portal</div>
+            <div class="node-badge">Production Live</div>
+          </div>
+          <div class="node-institution">Lead Full-Stack Developer & Systems Architect • 2026</div>
+          <ul class="bullet-list">
+            <li>Architected a secure, validation-driven clearance ingestion engine using Node.js, Express, and structured MongoDB collections.</li>
+            <li>Eliminated localized server memory leaks and disk blockades by wrapping file streams using Cloudinary Multi-part storage APIs via Multer filters.</li>
+            <li>Decoupled critical transactional notification processes from host server runtimes, transitioning execution entirely to automated client-side EmailJS handlers for reliable inbox routing.</li>
+            <li>Engineered modern, semantic asynchronous AJAX tracking mechanisms featuring stateful user interfaces, visual input feedback arrays, and automatic validation handling.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="main-section">
+        <h2>Academic Architecture</h2>
+        
+        <div class="timeline-node">
+          <div class="node-header">
+            <div class="node-title">B.Tech — Computer Science & Engineering</div>
+            <div class="node-badge">2025 — 2028</div>
+          </div>
+          <div class="node-institution">Usha Ram College Of Engineering And Technology</div>
+          <div class="score-badge">CGPA: 8.2 / Vertical Equivalent: 74.81%</div>
+        </div>
+
+        <div class="timeline-node">
+          <div class="node-header">
+            <div class="node-title">Diploma — Computer Engineering</div>
+            <div class="node-badge">2022 — 2025</div>
+          </div>
+          <div class="node-institution">State Board of Technical Education / A.A.N.M & V.V.R.S.R Polytechnic</div>
+          <div class="bullet-list" style="margin: 4px 0 0 0; font-size: 12px; color: var(--text-muted);">Specialization Focus: Artificial Intelligence & Machine Learning</div>
+          <div class="score-badge">Metrics Tracked: 69.91%</div>
+        </div>
+
+        <div class="timeline-node">
+          <div class="node-header">
+            <div class="node-title">Secondary School Certificate (10th)</div>
+            <div class="node-badge">Passout 2022</div>
+          </div>
+          <div class="node-institution">Ravindhra Bharathi Public School / SSC Board</div>
+          <div class="score-badge">Metrics Tracked: 69.17%</div>
+        </div>
+      </section>
+    </main>
+
+  </div>
+
+  <script>
+    function generatePDF() {
+      const element = document.getElementById('resume-document');
+      const opt = {
+        margin:       0,
+        filename:     'Prasanna_Sai_Tripuraneni_Resume.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true, logging: false },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      // Run compiler runtime cleanly
+      html2pdf().set(opt).from(element).save().catch((err) => {
+        console.error("PDF engine failure:", err);
+      });
+    }
+  </script>
+</body>
+</html>
